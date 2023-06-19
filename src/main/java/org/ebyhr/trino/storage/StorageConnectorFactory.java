@@ -53,10 +53,12 @@ public class StorageConnectorFactory
                     new HiveGcsModule(),
                     new HiveAzureModule(),
                     new HdfsAuthenticationModule());
-
+            String gpiApiKey = requiredConfig.get(StorageRecordSetProvider.GPT_API_KEY);
+            System.out.println(gpiApiKey);
             Injector injector = app
                     .doNotInitializeLogging()
-                    .setRequiredConfigurationProperties(requiredConfig)
+                    .setOptionalConfigurationProperty(StorageRecordSetProvider.GPT_API_KEY, gpiApiKey)
+//                    .setRequiredConfigurationProperties(requiredConfig)
                     .initialize();
 
             return injector.getInstance(StorageConnector.class);

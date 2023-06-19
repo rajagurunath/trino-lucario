@@ -16,6 +16,7 @@ package org.ebyhr.trino.storage.operator;
 import io.trino.spi.Page;
 import org.ebyhr.trino.storage.StorageColumn;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.function.Function;
@@ -23,10 +24,13 @@ import java.util.stream.Stream;
 
 public interface FilePlugin
 {
-    List<StorageColumn> getFields(String path, Function<String, InputStream> streamProvider);
+    List<StorageColumn> getFields(String path, Function<String, InputStream> streamProvider) throws IOException;
 
-    default Stream<List<?>> getRecordsIterator(String path, Function<String, InputStream> streamProvider)
-    {
+    default Stream<List<?>> getRecordsIterator(String path, Function<String, InputStream> streamProvider) throws IOException {
+        throw new UnsupportedOperationException("A FilePlugin must implement either getRecordsIterator or getPagesIterator");
+    }
+
+    default Stream<List<?>> getRecordsIterator(String path, Function<String, InputStream> streamProvider,String apiToken) throws IOException {
         throw new UnsupportedOperationException("A FilePlugin must implement either getRecordsIterator or getPagesIterator");
     }
 

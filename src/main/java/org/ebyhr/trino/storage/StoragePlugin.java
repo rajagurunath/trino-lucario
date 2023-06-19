@@ -13,10 +13,14 @@
  */
 package org.ebyhr.trino.storage;
 
+import com.google.common.collect.ImmutableSet;
 import io.trino.spi.Plugin;
 import io.trino.spi.connector.ConnectorFactory;
+import org.ebyhr.trino.storage.functions.ChatGPTFunction;
+import org.ebyhr.trino.storage.functions.CohereGPTFunction;
 
 import java.util.List;
+import java.util.Set;
 
 public class StoragePlugin
         implements Plugin
@@ -25,5 +29,9 @@ public class StoragePlugin
     public Iterable<ConnectorFactory> getConnectorFactories()
     {
         return List.of(new StorageConnectorFactory());
+    }
+    @Override
+    public Set<Class<?>> getFunctions() {
+        return ImmutableSet.<Class<?>>builder().add(ChatGPTFunction.class).add(CohereGPTFunction.class).build();
     }
 }

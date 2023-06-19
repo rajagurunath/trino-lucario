@@ -30,7 +30,11 @@ public final class StorageQueryRunner
     private StorageQueryRunner() {}
 
     private static final String TPCH_SCHEMA = "tpch";
-
+    private static final String JSON_PROMPT = "you are a data bot, who will provide data based on user description, Always provide your output as json string along with columns in separate json key\n" +
+        "for example:" +
+        "  user: give me two states in India" +
+        "  your output: {\"columns\":[\"states\"], \"data\":{ \"states\":[\"Tamil Nadu\",\"punjab\"]}} " +
+        "user: ";
     public static DistributedQueryRunner createStorageQueryRunner(
             Optional<TestingStorageServer> storageServer,
             Map<String, String> extraProperties,
@@ -98,7 +102,7 @@ public final class StorageQueryRunner
         {
             Logging.initialize();
 
-            DistributedQueryRunner queryRunner = createStorageQueryRunner(Optional.empty(), Map.of("http-server.http.port", "8080"), Map.of());
+            DistributedQueryRunner queryRunner = createStorageQueryRunner(Optional.empty(), Map.of("http-server.http.port", "8080"), Map.of("GPT.OPENAI.KEY","123"));
 
             Logger log = Logger.get(StorageQueryRunner.class);
             log.info("======== SERVER STARTED ========");

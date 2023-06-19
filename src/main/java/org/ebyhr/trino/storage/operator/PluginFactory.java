@@ -38,6 +38,10 @@ public final class PluginFactory
                 return new OrcPlugin();
             case "json":
                 return new JsonPlugin();
+            case "chatgpt":
+                return new GPTApiPlugin();
+            case "cohere":
+                return new CohereApiPlugin();
             default:
                 throw new SchemaNotFoundException(typeName);
         }
