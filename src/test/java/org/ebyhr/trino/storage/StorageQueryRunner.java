@@ -43,6 +43,7 @@ public final class StorageQueryRunner
     {
         DistributedQueryRunner queryRunner = DistributedQueryRunner.builder(createSession())
                 .setExtraProperties(extraProperties)
+//                .setCoordinatorProperties(extraProperties)
                 .build();
         try {
             queryRunner.installPlugin(new TpchPlugin());

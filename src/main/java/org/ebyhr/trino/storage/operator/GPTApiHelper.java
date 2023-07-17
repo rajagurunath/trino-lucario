@@ -62,7 +62,7 @@ public class GPTApiHelper {
         OpenAIChatService openAIChatService = retrofit.create(OpenAIChatService.class);
         String SystemPrompt = "you are data bot, who will provide data based on user description , you will try your maximum to understand user response and " +
                 "produce csv string output, you strictly outputs csv string output,you dont know anything else, you reply is only the csv string output." +
-                " if you are not able to frame a tabular structure for user response output empty string. user: ";
+                " please dont use any comma while returning numbers. if you are not able to frame a tabular structure for user response output empty string. user: ";
         // Create a chat request with a prompt and max_tokens
         ChatRequest chatRequest = new ChatRequest("text-davinci-003",
                 SystemPrompt + userPrompt + "your csv goes here ...", 250);
