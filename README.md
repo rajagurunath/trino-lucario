@@ -184,6 +184,14 @@ Splits: 1 total, 1 done (100.00%)
 >   - Please be aware that this chatGPT or Cohere APIs bill us every tokens, so it advisable to limit ourselves to small datasets.
 >   - We can try to integerate Trino-SPI plugin with java based Deep learning library which will solve few ML usecases without any extra cost.
 
+### Usage
+- Currently tested the plugin only in intellj IDEA. 
+- After downloading the dependencies from maven, configure API Keys as environmental variables
+  - GPT.OPENAI.KEY
+  - GPT.COHERE.KEY
+- Once configured you run the Trino Test Server implementaion : `org.ebyhr.trino.storage.StorageQueryRunner.StorageLocalQueryRunner`
+- yet to test this plugin in trino cluster (by keeping the jar in trino cluster's plugin directory) 
+
 ### Future Roadmap: 
 - if this project seems to be really useful, we can improve this project in many ways, documenting few things below.
 
