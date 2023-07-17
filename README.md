@@ -145,12 +145,11 @@ Splits: 1 total, 1 done (100.00%)
 
 ### Text Classification
 
-lucario use `Detect`:
+lucario use `Detect`
 
-![](https://gifdb.com/images/high/lucario-aura-ready-to-fight-hxgen12j262ylf9c.gif)
+![](https://media.tenor.com/dyEAIAJ2rWoAAAAC/lucario-pokemon.gif)
 
 We can use this feature for simple to medium text classification tasks:
-
 ```
 trino> SELECT "text",ask_chatgpt('classify the  sentiment of the given text as "postive" or "negative" with probability score',"text") as sentiment FROM
     -> storage.csv."/tmp/example_sentiment.csv"
