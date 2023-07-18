@@ -16,6 +16,7 @@ package org.ebyhr.trino.storage;
 import io.airlift.log.Logger;
 import io.trino.hdfs.HdfsContext;
 import io.trino.hdfs.HdfsEnvironment;
+import org.apache.commons.io.IOUtils;
 import io.trino.spi.connector.ConnectorSession;
 import io.trino.spi.type.VarcharType;
 import org.apache.hadoop.fs.FileStatus;
@@ -98,8 +99,13 @@ public class StorageClient
                 Path hdfsPath = new Path(path);
                 return hdfsEnvironment.getFileSystem(new HdfsContext(session), hdfsPath).open(hdfsPath);
             }
-            if (!path.startsWith("file:")) {
+            if (!path.startsWith("file:") & path.startsWith("/")) {
                 path = "file:" + path;
+            }
+
+            else{
+                // hack to output csv string from GPT bot
+                return IOUtils.toInputStream(path,"utf-8");
             }
 
             return URI.create(path).toURL().openStream();

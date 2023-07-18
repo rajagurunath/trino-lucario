@@ -18,12 +18,14 @@ import io.airlift.bootstrap.Bootstrap;
 import io.airlift.json.JsonModule;
 import io.trino.hdfs.HdfsModule;
 import io.trino.hdfs.authentication.HdfsAuthenticationModule;
+import io.trino.plugin.base.session.SessionPropertiesProvider;
 import io.trino.plugin.hive.azure.HiveAzureModule;
 import io.trino.plugin.hive.gcs.HiveGcsModule;
 import io.trino.plugin.hive.s3.HiveS3Module;
 import io.trino.spi.connector.Connector;
 import io.trino.spi.connector.ConnectorContext;
 import io.trino.spi.connector.ConnectorFactory;
+import org.ebyhr.trino.storage.operator.GPTApiPlugin;
 
 import java.util.Map;
 
@@ -53,10 +55,12 @@ public class StorageConnectorFactory
                     new HiveGcsModule(),
                     new HiveAzureModule(),
                     new HdfsAuthenticationModule());
-
+            String gpiApiKey = requiredConfig.get(StorageRecordSetProvider.GPT_API_KEY);
+            System.out.println(gpiApiKey);
             Injector injector = app
                     .doNotInitializeLogging()
-                    .setRequiredConfigurationProperties(requiredConfig)
+                    .setOptionalConfigurationProperty(StorageRecordSetProvider.GPT_API_KEY, gpiApiKey)
+                    .setOptionalConfigurationProperties(requiredConfig)
                     .initialize();
 
             return injector.getInstance(StorageConnector.class);

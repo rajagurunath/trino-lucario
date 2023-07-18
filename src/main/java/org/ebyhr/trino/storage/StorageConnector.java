@@ -16,16 +16,19 @@ package org.ebyhr.trino.storage;
 import com.google.common.collect.ImmutableSet;
 import io.airlift.bootstrap.LifeCycleManager;
 import io.airlift.log.Logger;
+import io.trino.plugin.base.session.SessionPropertiesProvider;
 import io.trino.spi.connector.Connector;
 import io.trino.spi.connector.ConnectorMetadata;
 import io.trino.spi.connector.ConnectorPageSourceProvider;
 import io.trino.spi.connector.ConnectorSplitManager;
 import io.trino.spi.connector.ConnectorTransactionHandle;
 import io.trino.spi.ptf.ConnectorTableFunction;
+import io.trino.spi.session.PropertyMetadata;
 import io.trino.spi.transaction.IsolationLevel;
 
 import javax.inject.Inject;
 
+import java.util.List;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
@@ -41,20 +44,25 @@ public class StorageConnector
     private final StorageSplitManager splitManager;
     private final StoragePageSourceProvider pageSourceProvider;
     private final Set<ConnectorTableFunction> connectorTableFunctions;
+//    private final Set<SessionPropertiesProvider> sessionPropertiesProviders;
 
+//    private final List<PropertyMetadata<?>> tableProperties;
     @Inject
     public StorageConnector(
             LifeCycleManager lifeCycleManager,
             StorageMetadata metadata,
             StorageSplitManager splitManager,
             StoragePageSourceProvider pageSourceProvider,
-            Set<ConnectorTableFunction> connectorTableFunctions)
+            Set<ConnectorTableFunction> connectorTableFunctions
+            )
     {
         this.lifeCycleManager = requireNonNull(lifeCycleManager, "lifeCycleManager is null");
         this.metadata = requireNonNull(metadata, "metadata is null");
         this.splitManager = requireNonNull(splitManager, "splitManager is null");
         this.pageSourceProvider = requireNonNull(pageSourceProvider, "pageSourceProvider is null");
         this.connectorTableFunctions = ImmutableSet.copyOf(requireNonNull(connectorTableFunctions, "connectorTableFunctions is null"));
+//        this.sessionPropertiesProviders = ImmutableSet.copyOf(requireNonNull(sessionPropertiesProviders, "sessionPropertiesProviders is null"));
+//        this.tableProperties = tableProperties;
     }
 
     @Override
@@ -81,6 +89,9 @@ public class StorageConnector
         return pageSourceProvider;
     }
 
+//    public boolean getGPTKEY() {
+//        return tableProperties.contains(StorageRecordSetProvider.GPT_API_KEY);
+//    }
     @Override
     public Set<ConnectorTableFunction> getTableFunctions()
     {

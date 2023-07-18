@@ -29,6 +29,7 @@ import org.ebyhr.trino.storage.operator.PluginFactory;
 
 import javax.inject.Inject;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -39,6 +40,8 @@ public class StorageRecordSetProvider
         implements ConnectorRecordSetProvider
 {
     private final StorageClient storageClient;
+
+    final static  String GPT_API_KEY = "GPT.OPENAI.KEY";
 
     @Inject
     public StorageRecordSetProvider(StorageClient storageClient)
@@ -62,7 +65,12 @@ public class StorageRecordSetProvider
         StorageTable storageTable = storageClient.getTable(session, schemaName, tableName);
 
         FilePlugin plugin = PluginFactory.create(schemaName);
-        Stream<List<?>> stream = plugin.getRecordsIterator(tableName, path -> storageClient.getInputStream(session, path));
+        Stream<List<?>> stream = null;
+        try {
+            stream = plugin.getRecordsIterator(tableName, path -> storageClient.getInputStream(session, path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Iterable<List<?>> rows = stream::iterator;
 
         List<StorageColumnHandle> handles = columns

@@ -49,8 +49,7 @@ public class JsonPlugin
         implements FilePlugin
 {
     @Override
-    public List<StorageColumn> getFields(String path, Function<String, InputStream> streamProvider)
-    {
+    public List<StorageColumn> getFields(String path, Function<String, InputStream> streamProvider) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(streamProvider.apply(path)))) {
             // check for lines up to 1MB
@@ -79,7 +78,7 @@ public class JsonPlugin
         }
     }
 
-    private Type mapType(JsonNode node)
+    Type mapType(JsonNode node)
     {
         switch (node.getNodeType()) {
             case ARRAY:
@@ -107,8 +106,7 @@ public class JsonPlugin
     }
 
     @Override
-    public Stream<List<?>> getRecordsIterator(String path, Function<String, InputStream> streamProvider)
-    {
+    public Stream<List<?>> getRecordsIterator(String path, Function<String, InputStream> streamProvider) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         BufferedReader reader = new BufferedReader(new InputStreamReader(streamProvider.apply(path)));
         try {
@@ -141,7 +139,7 @@ public class JsonPlugin
         }
     }
 
-    private List<?> nodeToRow(JsonNode node)
+    List<?> nodeToRow(JsonNode node)
     {
         return Streams.stream(node.fields())
                 .map(entry -> mapValue(entry.getValue()))
